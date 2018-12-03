@@ -1,0 +1,16 @@
+.footer {
+  color: $c-gray-2;
+  border-top: 1px solid $c-gray-4;
+  @include adaptive-padding();
+}
+
+.social {
+  margin-left: auto;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+
+  @include content;
+}

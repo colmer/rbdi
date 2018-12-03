@@ -1,0 +1,9 @@
+.social-block {
+  img {
+    height: 30px;
+    margin-right: $space-0;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

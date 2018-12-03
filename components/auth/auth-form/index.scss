@@ -1,0 +1,24 @@
+.login-form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  max-width: $login-form;
+  padding: $space-2 0;
+
+  h1 {
+    color: $c-gray-3;
+    font-size: $f-size-5;
+    margin-top: 0;
+    margin-bottom: $space-1;
+  }
+
+  & > * {
+    margin-bottom: $space-1;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  @include adaptive-padding();
+}

@@ -1,0 +1,17 @@
+.rb-btn {
+  display: inline-flex;
+  background: $c-purple;
+  border: 0;
+  border-radius: $rad-1;
+  font-size: $f-size-2;
+  padding: 8px $space-2;
+  font-weight: bold;
+  color: $c-white;
+  text-decoration: none;
+  transition: $transition;
+
+  &:hover {
+    cursor: pointer;
+    background: lighten($c-purple, 5);
+  }
+}

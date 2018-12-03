@@ -1,0 +1,22 @@
+.input {
+  input,
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    width: 100%;
+    padding: $space-0 $space-1;
+    outline: 0;
+    border: 0;
+    background: $c-white;
+    border: 1px solid $c-border-gray;
+    border-radius: $rad-1;
+    background-color: $c-white;
+    -webkit-text-fill-color: inherit;
+    -webkit-box-shadow: 0;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+}

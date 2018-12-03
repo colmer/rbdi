@@ -1,0 +1,83 @@
+$login-form: 500px;
+
+// Minimal screen width
+$min-width: 320px;
+
+@mixin adaptive-padding($type: "") {
+  padding-right: $space-2;
+  padding-left: $space-2;
+  @if $type== "all" {
+    padding-top: $space-1;
+    padding-bottom: $space-1;
+  }
+  @media #{$max-md} {
+    padding-right: $space-4;
+    padding-left: $space-4;
+  }
+  @media #{$max-xsm} {
+    padding-right: $space-2;
+    padding-left: $space-2;
+  }
+}
+
+@mixin content {
+  width: 100%;
+  max-width: $xxlg;
+  min-width: $min-width;
+  margin: 0 auto;
+}
+
+// Radius
+$rad-1: 10px;
+
+// Font sizes
+$f-size-2: 18px;
+$f-size-3: 20px;
+$f-size-4: 22px;
+$f-size-5: 24px;
+
+// Colors
+$c-gray-1: #596275;
+$c-gray-2: #999999;
+$c-gray-3: #666666;
+$c-gray-4: #eeecec;
+$c-gray-5: #c6c6c6;
+
+$c-white: #ffffff;
+$c-purple: #786fa6;
+
+$c-border-gray: $c-gray-5;
+
+// Points
+$xsm: 420px;
+$sm: 544px;
+$md: 768px;
+$lg: 992px;
+$xlg: 1200px;
+$xxlg: 1326px;
+
+// Margins and paddings
+$space-0: 10px;
+$space-1: 15px;
+$space-2: 20px;
+$space-3: 30px;
+$space-4: 40px;
+
+// Queries
+$max-xsm: "(max-width: #{$xsm - 1})"; // 429px
+$max-sm: "(max-width: #{$sm - 1})"; // 543px
+$max-md: "(max-width: #{$md - 1})"; // 767px
+$max-lg: "(max-width: #{$lg - 1})"; // 991px
+$max-xlg: "(max-width: #{$xlg - 1})"; // 1199px
+$max-xxlg: "(max-width: #{$xlg - 1})"; // 1325px
+$min-xsm: "(min-width: #{$xsm})";
+$min-sm: "(min-width: #{$sm})";
+$min-md: "(min-width: #{$md})";
+$min-lg: "(min-width: #{$lg})";
+$min-xlg: "(min-width: #{$xlg})";
+$min-xlg: "(min-width: #{$xxlg})";
+
+// Transitions
+$transition-time: 0.25s;
+$transition-fn: ease-out;
+$transition: $transition-fn $transition-time;

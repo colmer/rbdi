@@ -1,0 +1,14 @@
+.nav {
+  border-bottom: 1px solid $c-gray-4;
+  color: $c-gray-2;
+
+  @include adaptive-padding();
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  width: 100%;
+  @include content;
+}
