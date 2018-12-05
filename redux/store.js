@@ -27,6 +27,7 @@ function configureStore(initialState) {
   };
 
   store.runSagaTask();
+
   return store;
 }
 

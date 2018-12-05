@@ -1,21 +1,20 @@
 import api from "@/services/auth-api";
-import { Record } from "immutable";
+import { Record, is } from "immutable";
 import { all, call, put, take } from "redux-saga/effects";
+import { serialize } from "../services/immutable-serializer";
 
 /**
  * Constants
  * */
 export const moduleName = "auth";
-console.log(process.env.APP_NAME);
 const prefix = `${process.env.APP_NAME}/${moduleName}`;
-console.log(prefix, process.env.APP_NAME);
 export const SIGN_IN_REQUEST = `${prefix}/SIGN_IN_REQUEST`;
 export const SIGN_IN_SUCCESS = `${prefix}/SIGN_IN_SUCCESS`;
 export const SIGN_IN_ERROR = `${prefix}/SIGN_IN_ERROR`;
-console.log(prefix, process.env.APP_NAME, SIGN_IN_REQUEST);
 /**
  * Reducer
  * */
+
 export const ReducerRecord = Record({
   loading: false,
   user: null,
@@ -29,6 +28,9 @@ export default function reducer(state = new ReducerRecord(), action) {
     case SIGN_IN_SUCCESS:
       // case SIGN_UP_SUCCESS:
       return state.set("user", payload.user).set("loading", false);
+
+    case SIGN_IN_ERROR:
+      return state.set("error", error);
 
     // case SIGN_UP_START:
     //   return state.set("loading", true);
@@ -56,7 +58,6 @@ export const userSelector = state => state[moduleName].user;
  * */
 
 export function signIn(email, password) {
-  console.log("###########", SIGN_IN_REQUEST, process.env);
   return {
     type: SIGN_IN_REQUEST,
     payload: { email, password }

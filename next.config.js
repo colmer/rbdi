@@ -11,29 +11,34 @@ module.exports = withSass({
   },
   webpack: config => {
     config.plugins.push(new Dotenv());
+
     // Fixes npm packages that depend on `fs` module
-    (config.resolve = {
+    config.node = {
+      fs: "empty"
+    };
+
+    // Aliases
+    config.resolve = {
       alias: {
         Components: path.resolve(__dirname, "components/"),
         "@": path.resolve(__dirname, "")
       }
-    }),
-      config.module.rules.push({
-        test: /\.scss$/,
-        use: [
-          // { loader: "sass-loader", options: { sourceMap: true } },
-          {
-            loader: "sass-resources-loader",
-            options: {
-              sourceMap: true,
-              resources: "./styles/global.scss"
-            }
-          }
-        ]
-      });
-    config.node = {
-      fs: "empty"
     };
+
+    // Sass globals
+    config.module.rules.push({
+      test: /\.scss$/,
+      use: [
+        // { loader: "sass-loader", options: { sourceMap: true } },
+        {
+          loader: "sass-resources-loader",
+          options: {
+            sourceMap: true,
+            resources: "./styles/global.scss"
+          }
+        }
+      ]
+    });
 
     return config;
   }
