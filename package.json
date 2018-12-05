@@ -13,6 +13,7 @@
     "dotenv-webpack": "^1.5.7",
     "es6-promise": "4.1.1",
     "exports-loader": "^0.7.0",
+    "flatry": "^1.0.12",
     "immutable": "^4.0.0-rc.12",
     "isomorphic-unfetch": "^3.0.0",
     "json-immutable": "^0.4.0",

@@ -1,0 +1,8 @@
+.active {
+  transition: $transition;
+  cursor: pointer;
+
+  &:hover {
+    color: lighten($c-gray-1, 10);
+  }
+}

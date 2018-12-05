@@ -4,7 +4,7 @@ import RbIcon from "Components/common/rb-icon";
 
 const SearchBlock = () => (
   <div className={css["search-block"]}>
-    <RbIcon icon="search" />
+    <RbIcon active={true} icon="search" />
   </div>
 );
 

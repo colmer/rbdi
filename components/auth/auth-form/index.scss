@@ -20,5 +20,13 @@
     }
   }
 
+  .error {
+    color: $c-white;
+    font-weight: bold;
+    background-color: $c-red;
+    padding: $space-0 $space-2;
+    border-radius: $rad-1;
+  }
+
   @include adaptive-padding();
 }

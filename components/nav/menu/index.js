@@ -10,7 +10,7 @@ const Menu = () => (
       </Link>
     </li>
     <li>
-      <Link prefetch href="/2">
+      <Link prefetch href="/logged">
         <a>Чипы</a>
       </Link>
     </li>

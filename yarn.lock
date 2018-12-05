@@ -2360,6 +2360,13 @@ find-up@^3.0.0:
   dependencies:
     locate-path "^3.0.0"
 
+flatry@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/flatry/-/flatry-1.0.12.tgz#260dc0c41425805fe984ed56dd04beee89a279e2"
+  integrity sha1-Jg3AxBQlgF/phO1W3QS+7omieeI=
+  dependencies:
+    is-promise "^2.1.0"
+
 flush-write-stream@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/flush-write-stream/-/flush-write-stream-1.0.3.tgz#c5d586ef38af6097650b49bc41b55fabb19f35bd"

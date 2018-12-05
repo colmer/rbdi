@@ -1,14 +1,16 @@
 import css from "./index.scss";
 
 import React from "react";
+import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
+import { errorSelector } from "@/ducks/auth";
 
 import Input from "Components/common/input";
 import RbBtn from "Components/common/rb-btn";
 
 const Login = props => {
-  const { handleSubmit } = props;
-
+  const { error, handleSubmit } = props;
+  console.log(error);
   return (
     <form className={css["login-form"]} onSubmit={handleSubmit}>
       <h1>Войти</h1>
@@ -23,9 +25,12 @@ const Login = props => {
           placeholder="Пароль2"
         />
       </Input>
+      {error && <div className={css.error}>{error.message}</div>}
       <RbBtn>Войти</RbBtn>
     </form>
   );
 };
 
-export default reduxForm({ form: "auth" })(Login);
+export default reduxForm({ form: "auth" })(
+  connect(state => ({ error: errorSelector(state) }))(Login)
+);
