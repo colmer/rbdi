@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import Layout from "Components/layout";
+import React, { Component } from 'react';
+import Layout from 'Components/layout';
 
-import OnlyLogged from "@/components/only-logged";
+import OnlyLogged from '@/components/only-logged';
 
 class Logged extends Component {
   state = {};

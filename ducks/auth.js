@@ -1,12 +1,12 @@
-import api from "@/services/auth-api";
-import { Record } from "immutable";
-import { all, call, put, take } from "redux-saga/effects";
-import Router from "next/router";
+import api from '@/services/auth-api';
+import { Record } from 'immutable';
+import { all, call, put, take } from 'redux-saga/effects';
+import Router from 'next/router';
 
 /**
  * Constants
  * */
-export const moduleName = "auth";
+export const moduleName = 'auth';
 const prefix = `${process.env.APP_NAME}/${moduleName}`;
 export const SIGN_IN_REQUEST = `${prefix}/SIGN_IN_REQUEST`;
 export const SIGN_IN_SUCCESS = `${prefix}/SIGN_IN_SUCCESS`;
@@ -19,7 +19,7 @@ export const REDIRECT = `${prefix}/REDIRECT`;
 export const ReducerRecord = Record({
   loading: false,
   user: null,
-  error: null
+  error: null,
 });
 
 export default function reducer(state = new ReducerRecord(), action) {
@@ -29,12 +29,12 @@ export default function reducer(state = new ReducerRecord(), action) {
     case SIGN_IN_SUCCESS:
       // case SIGN_UP_SUCCESS:
       return state
-        .set("user", payload.user)
-        .set("loading", false)
-        .set("error", null);
+        .set('user', payload.user)
+        .set('loading', false)
+        .set('error', null);
 
     case SIGN_IN_ERROR:
-      return state.set("error", error);
+      return state.set('error', error);
 
     case REDIRECT:
       Router.push(path);
@@ -67,7 +67,7 @@ export const errorSelector = state => state[moduleName].error;
 export function signIn(email, password) {
   return {
     type: SIGN_IN_REQUEST,
-    payload: { email, password }
+    payload: { email, password },
   };
 }
 
@@ -80,25 +80,25 @@ export function* signInSaga() {
     const action = yield take(SIGN_IN_REQUEST);
 
     const {
-      payload: { email, password }
+      payload: { email, password },
     } = action;
 
     try {
       const {
-        data: { user }
+        data: { user },
       } = yield call(api.signIn, email, password);
       yield put({
         type: SIGN_IN_SUCCESS,
-        payload: { user }
+        payload: { user },
       });
       yield put({
         type: REDIRECT,
-        path: "/"
+        path: '/',
       });
     } catch (error) {
       yield put({
         type: SIGN_IN_ERROR,
-        error: error.response ? error.response.data : error
+        error: error.response ? error.response.data : error,
       });
     }
   }

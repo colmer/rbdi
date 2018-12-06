@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { userSelector } from "@/ducks/auth";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { userSelector } from '@/ducks/auth';
 
 class OnlyLogged extends Component {
   render() {
@@ -16,5 +16,5 @@ class OnlyLogged extends Component {
 }
 
 export default connect(state => ({
-  user: userSelector(state)
+  user: userSelector(state),
 }))(OnlyLogged);

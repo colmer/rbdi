@@ -1,6 +1,6 @@
-import { Record } from "immutable";
+import { Record } from 'immutable';
 
-const structures = [{ name: "Record", type: Record }];
+const structures = [{ name: 'Record', type: Record }];
 
 export const serialize = state => {
   let serialized = {};

@@ -1,12 +1,12 @@
-import css from "./index.scss";
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import AuthBlock from "./auth-block";
-import UserBlock from "./user-block";
-import SearchBlock from "./search-block";
-import Menu from "./menu";
-import Logo from "./logo";
-import { userSelector } from "@/ducks/auth";
+import css from './index.scss';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import AuthBlock from './auth-block';
+import UserBlock from './user-block';
+import SearchBlock from './search-block';
+import Menu from './menu';
+import Logo from './logo';
+import { userSelector } from '@/ducks/auth';
 
 class Nav extends Component {
   render() {

@@ -1,8 +1,8 @@
-import css from "./index.scss";
+import css from './index.scss';
 
 const SocialBlock = props => {
   const { className } = props;
-  let blockClass = css["social-block"];
+  let blockClass = css['social-block'];
   if (className) blockClass += ` ${className}`;
   return (
     <div className={blockClass}>

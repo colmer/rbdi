@@ -1,6 +1,6 @@
-import css from "./index.scss";
+import css from './index.scss';
 
-import Link from "next/link";
+import Link from 'next/link';
 
 const Menu = () => (
   <ul className={css.menu}>

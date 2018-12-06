@@ -1,9 +1,9 @@
-import css from "./index.scss";
+import css from './index.scss';
 
-import RbIcon from "Components/common/rb-icon";
+import RbIcon from 'Components/common/rb-icon';
 
 const SearchBlock = () => (
-  <div className={css["search-block"]}>
+  <div className={css['search-block']}>
     <RbIcon active={true} icon="search" />
   </div>
 );
