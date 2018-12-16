@@ -1,9 +1,9 @@
-import css from "./index.scss";
-import Link from "next/link";
+import css from './index.scss';
+import Link from 'next/link';
 
 const RbButton = props => {
   const { link, className } = props;
-  let btnClass = css["rb-btn"];
+  let btnClass = css['rb-btn'];
 
   if (className) btnClass += ` ${className}`;
 
@@ -16,7 +16,6 @@ const RbButton = props => {
   }
 
   return <button className={btnClass}>{props.children}</button>;
-  //
 };
 
 export default RbButton;

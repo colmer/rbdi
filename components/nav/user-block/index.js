@@ -1,14 +1,29 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import css from './index.scss';
+
 import RbIcon from '@/components/common/rb-icon';
 
-const UserBlock = props => {
-  const { user } = props;
-  return (
-    <div className={css['user-block']}>
-      <span className={css.login}>{user.username}</span>
-      <RbIcon active={true} icon="exit_to_app" />
-    </div>
-  );
-};
+import { signOut } from '@/ducks/auth';
 
-export default UserBlock;
+class UserBlock extends Component {
+  render() {
+    const { user } = this.props;
+    return (
+      <div className={css['user-block']}>
+        <span className={css.login}>{user.username}</span>
+        <RbIcon active={true} onClick={this.handleLogOut} icon="exit_to_app" />
+      </div>
+    );
+  }
+
+  handleLogOut = e => {
+    e.preventDefault();
+    this.props.signOut();
+  };
+}
+
+export default connect(
+  null,
+  { signOut },
+)(UserBlock);

@@ -1,12 +1,15 @@
-import css from "./index.scss";
+import css from './index.scss';
 
 const RbIcon = props => {
-  const { icon, active } = props;
+  const { icon, active, onClick } = props;
 
-  let className = "material-icons";
+  let className = 'material-icons';
   if (active) className += ` ${css.active}`;
-  console.log();
-  return <i className={className}>{icon}</i>;
+  return (
+    <i className={className} onClick={onClick}>
+      {icon}
+    </i>
+  );
 };
 
 export default RbIcon;

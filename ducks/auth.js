@@ -1,8 +1,9 @@
 import api from '@/services/auth-api';
 import { Record } from 'immutable';
-import { all, call, put, take } from 'redux-saga/effects';
+import { all, call, put, take, takeEvery } from 'redux-saga/effects';
 import Router from 'next/router';
-
+import cookie from 'js-cookie';
+import decode from 'jwt-decode';
 /**
  * Constants
  * */
@@ -11,6 +12,10 @@ const prefix = `${process.env.APP_NAME}/${moduleName}`;
 export const SIGN_IN_REQUEST = `${prefix}/SIGN_IN_REQUEST`;
 export const SIGN_IN_SUCCESS = `${prefix}/SIGN_IN_SUCCESS`;
 export const SIGN_IN_ERROR = `${prefix}/SIGN_IN_ERROR`;
+export const SIGN_OUT_REQUEST = `${prefix}/SIGN_OUT_REQUEST`;
+export const SIGN_OUT_SUCCESS = `${prefix}/SIGN_OUT_SUCCESS`;
+export const SIGN_CHECK_REQUEST = `${prefix}/SIGN_CHECK_REQUEST`;
+export const SIGN_CHECK_SUCCESS = `${prefix}/SIGN_CHECK_SUCCESS`;
 export const REDIRECT = `${prefix}/REDIRECT`;
 /**
  * Reducer
@@ -27,7 +32,7 @@ export default function reducer(state = new ReducerRecord(), action) {
 
   switch (type) {
     case SIGN_IN_SUCCESS:
-      // case SIGN_UP_SUCCESS:
+    case SIGN_CHECK_SUCCESS:
       return state
         .set('user', payload.user)
         .set('loading', false)
@@ -36,13 +41,11 @@ export default function reducer(state = new ReducerRecord(), action) {
     case SIGN_IN_ERROR:
       return state.set('error', error);
 
+    case SIGN_OUT_SUCCESS:
+      return state.set('user', null).set('error', null);
+
     case REDIRECT:
       Router.push(path);
-    // case SIGN_UP_START:
-    //   return state.set("loading", true);
-
-    // case SIGN_UP_FAIL:
-    //   return state.set("error", error);
 
     default:
       return state;
@@ -71,39 +74,78 @@ export function signIn(email, password) {
   };
 }
 
+export function signOut() {
+  return {
+    type: SIGN_OUT_REQUEST,
+  };
+}
+
+export function signCheck() {
+  return {
+    type: SIGN_CHECK_REQUEST,
+  };
+}
+
 /**
  * Sagas
  **/
 
-export function* signInSaga() {
-  while (true) {
-    const action = yield take(SIGN_IN_REQUEST);
-
+export function* signInSaga({ payload: { email, password } }) {
+  try {
     const {
-      payload: { email, password },
-    } = action;
+      data: { token, refreshToken },
+    } = yield call(api.signIn, email, password);
 
-    try {
-      const {
-        data: { user },
-      } = yield call(api.signIn, email, password);
-      yield put({
-        type: SIGN_IN_SUCCESS,
-        payload: { user },
-      });
-      yield put({
-        type: REDIRECT,
-        path: '/',
-      });
-    } catch (error) {
-      yield put({
-        type: SIGN_IN_ERROR,
-        error: error.response ? error.response.data : error,
-      });
-    }
+    // Add tokens to cookie
+    cookie.set('token', token);
+    cookie.set('refreshToken', refreshToken);
+
+    yield put({
+      type: SIGN_IN_SUCCESS,
+      payload: { user: decode(token) },
+    });
+
+    yield put({
+      type: REDIRECT,
+      path: '/',
+    });
+  } catch (error) {
+    yield put({
+      type: SIGN_IN_ERROR,
+      error: error.response ? error.response.data : error,
+    });
   }
 }
 
+export function* signCheckSaga() {
+  try {
+    const {
+      data: { user },
+    } = yield call(api.signCheck);
+    yield put({
+      type: SIGN_CHECK_SUCCESS,
+      payload: { user },
+    });
+  } catch (e) {
+    console.log('Not auth');
+  }
+}
+
+export function* signOutSaga() {
+  yield call(api.signOut);
+  yield put({
+    type: SIGN_OUT_SUCCESS,
+  });
+  yield put({
+    type: REDIRECT,
+    path: '/',
+  });
+}
+
 export function* saga() {
-  yield all([signInSaga()]);
+  yield all([
+    takeEvery(SIGN_IN_REQUEST, signInSaga),
+    takeEvery(SIGN_OUT_REQUEST, signOutSaga),
+    takeEvery(SIGN_CHECK_REQUEST, signCheckSaga),
+  ]);
 }
