@@ -15,7 +15,11 @@ class Home extends Component {
   }
 
   handleClick = async () => {
-    const status = await axios.get('/status');
+    const [status] = await Promise.all([
+      axios.get('/status'),
+      axios.get('/status'),
+      axios.get('/status'),
+    ]);
     console.log('Status', status);
   };
 }

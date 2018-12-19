@@ -59,6 +59,7 @@ axios.defaults.baseURL = process.env.API;
 // });
 
 // export default updatedAxios.client;
+let request = null;
 
 axios.interceptors.request.use(
   config => {
@@ -86,9 +87,16 @@ axios.interceptors.response.use(
       throw err;
     }
 
-    const { data } = await axios.post('/auth/refresh', {
-      refreshToken: cookie.get('refreshToken'),
-    });
+    console.log('Request', request);
+    if (err.config.request) return;
+
+    if (!request) {
+      request = axios.post('/auth/refresh', {
+        refreshToken: cookie.get('refreshToken'),
+      });
+    }
+
+    const { data } = await request;
 
     cookie.set('token', data.token);
     cookie.set('refreshToken', data.refreshToken);
@@ -97,6 +105,8 @@ axios.interceptors.response.use(
       ...err.config,
       retry: true,
     };
+
+    request = null;
 
     return axios.request(newRequest);
   },
