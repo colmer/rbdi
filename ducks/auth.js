@@ -1,4 +1,4 @@
-import api from '@/services/auth-api';
+import { authApi } from '@/services/api';
 import { Record } from 'immutable';
 import { all, call, put, take, takeEvery } from 'redux-saga/effects';
 import Router from 'next/router';
@@ -20,7 +20,6 @@ export const REDIRECT = `${prefix}/REDIRECT`;
 /**
  * Reducer
  * */
-
 export const ReducerRecord = Record({
   loading: false,
   user: null,
@@ -94,7 +93,7 @@ export function* signInSaga({ payload: { email, password } }) {
   try {
     const {
       data: { token, refreshToken },
-    } = yield call(api.signIn, email, password);
+    } = yield call(authApi.signIn, email, password);
 
     // Add tokens to cookie
     cookie.set('token', token);
@@ -119,12 +118,11 @@ export function* signInSaga({ payload: { email, password } }) {
 
 export function* signCheckSaga() {
   try {
-    const {
-      data: { user },
-    } = yield call(api.signCheck);
+    yield call(authApi.signCheck);
+    console.log('Not auth');
     yield put({
       type: SIGN_CHECK_SUCCESS,
-      payload: { user },
+      payload: decode(token),
     });
   } catch (e) {
     console.log('Not auth');
@@ -132,7 +130,7 @@ export function* signCheckSaga() {
 }
 
 export function* signOutSaga() {
-  yield call(api.signOut);
+  yield call(authApi.signOut);
   yield put({
     type: SIGN_OUT_SUCCESS,
   });

@@ -4,7 +4,6 @@ import { serialize, deserialize } from '../services/immutable-serializer';
 import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 import withReduxSaga from 'next-redux-saga';
-// import cookie from 'cookie';
 
 import { SIGN_CHECK_REQUEST } from '@/ducks/auth';
 import createStore from '../redux/store';
@@ -20,7 +19,7 @@ class MyApp extends App {
     if (ctx.req && ctx.req.headers.cookie) {
       //const cookies = cookie.parse(ctx.req.headers.cookie);
       //console.log(cookies);
-      // await ctx.store.dispatch({ type: SIGN_CHECK_REQUEST, payload: { cookies: 'asd' } });
+      await ctx.store.dispatch({ type: SIGN_CHECK_REQUEST, payload: { cookies: 'asd' } });
     }
 
     return { pageProps };
