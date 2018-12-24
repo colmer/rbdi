@@ -10,6 +10,7 @@
   "dependencies": {
     "@zeit/next-sass": "^1.0.1",
     "axios": "^0.18.0",
+    "cookie": "^0.3.1",
     "dotenv-webpack": "^1.5.7",
     "es6-promise": "4.1.1",
     "exports-loader": "^0.7.0",

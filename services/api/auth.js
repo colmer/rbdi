@@ -1,18 +1,19 @@
-import axios from '@/utils/axios';
-
 class ApiService {
+  constructor(client) {
+    this.client = client;
+  }
+
   signIn = (email, password) => {
-    return axios.post('/login', { email, password });
+    return this.client.post('/login', { email, password });
   };
 
   signOut = () => {
-    return axios.get('/auth/logout');
+    return this.client.get('/auth/logout');
   };
 
   signCheck = () => {
-    console.log('#############', 'status check');
-    return axios.get('/auth/status');
+    return this.client.get('/auth/status');
   };
 }
 
-export default new ApiService();
+export default ApiService;

@@ -7,8 +7,8 @@ import { actionTypes, failure, loadDataSuccess, tickClock } from '../actions';
 
 es6promise.polyfill();
 
-function* rootSaga() {
-  yield all([call(authSaga)]);
+function* rootSaga(client) {
+  yield all([call(authSaga, client)]);
 }
 
 export default rootSaga;

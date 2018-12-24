@@ -9,6 +9,10 @@ module.exports = withSass({
     camelCase: true,
     localIdentName: '[folder]__[local]_[hash:base64:5]',
   },
+  serverRuntimeConfig: {
+    // Will only be available on the server side
+    mySecret: 'secret',
+  },
   webpack: config => {
     config.plugins.push(new Dotenv());
 

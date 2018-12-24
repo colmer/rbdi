@@ -1,3 +1,3 @@
-import auth from './auth';
+import Auth from './auth';
 
-export const authApi = auth;
+export const AuthApi = Auth;
