@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import Layout from '@/components/layout';
 // import axios from '@/utils/axios';
-import { test } from '@/utils/__axios';
+import Request from '@/utils/__axios';
 
 class Home extends Component {
   static async getInitialProps({ Component, ctx }) {
-    console.log('In index page', test.token);
+    console.log('In index page', Request.token);
 
     return {};
   }
@@ -23,7 +23,7 @@ class Home extends Component {
 
   handleClick = async () => {
     const [status] = await Promise.all([
-      test.client.get('http://localhost:1337/auth/status'),
+      Request.client.get('http://localhost:1337/auth/status'),
     ]);
     console.log('Status', status);
   };

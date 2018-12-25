@@ -4048,6 +4048,13 @@ node-sass@^4.10.0:
     stdout-stream "^1.4.0"
     "true-case-path" "^1.0.2"
 
+nookies@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/nookies/-/nookies-1.2.0.tgz#570c8be505b93fed391dc076814aa502f5bcce78"
+  integrity sha512-dcqrTLk0Ctl5oYGJS29eod6kzeaP2NG1NhjrzJWFlKd6fxKDPbouSwVYsynztVoWZP8aq9SOSZao1H+BCVkonQ==
+  dependencies:
+    cookie "^0.3.1"
+
 "nopt@2 || 3":
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/nopt/-/nopt-3.0.6.tgz#c6465dbf08abcd4db359317f79ac68a646b28ff9"

@@ -4,6 +4,12 @@ import { all, call, put, take, takeEvery } from 'redux-saga/effects';
 import Router from 'next/router';
 import cookie from 'js-cookie';
 import decode from 'jwt-decode';
+import Request from '@/utils/__axios';
+
+console.log(Request);
+
+const API = new AuthApi(Request.client);
+
 /**
  * Constants
  * */
@@ -95,13 +101,12 @@ export function signCheck() {
  * Sagas
  **/
 
-export function* signInSaga(API, { payload: { email, password } }) {
+export function* signInSaga({ payload: { email, password } }) {
   try {
     const {
       data: { token, refreshToken },
     } = yield call(API.signIn, email, password);
 
-    // Add tokens to cookie
     cookie.set('token', token);
     cookie.set('refreshToken', refreshToken);
 
@@ -147,11 +152,9 @@ export function* signOutSaga(API) {
 }
 
 export function* saga(client) {
-  const API = new AuthApi(client);
-
   yield all([
-    takeEvery(SIGN_IN_REQUEST, signInSaga, API),
-    takeEvery(SIGN_OUT_REQUEST, signOutSaga, API),
-    takeEvery(SIGN_CHECK_REQUEST, signCheckSaga, API),
+    takeEvery(SIGN_IN_REQUEST, signInSaga),
+    takeEvery(SIGN_OUT_REQUEST, signOutSaga),
+    takeEvery(SIGN_CHECK_REQUEST, signCheckSaga),
   ]);
 }

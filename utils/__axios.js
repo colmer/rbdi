@@ -2,7 +2,7 @@ import axios from 'axios';
 
 axios.defaults.baseURL = process.env.API;
 
-export default class Axios {
+export class Axios {
   constructor(options = {}) {
     this.client = options.client || axios.create();
     this.token = options.token;
@@ -57,4 +57,4 @@ export default class Axios {
   };
 }
 
-export const test = new Axios();
+export default new Axios();
