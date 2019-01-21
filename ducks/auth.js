@@ -6,10 +6,8 @@ import cookie from 'js-cookie';
 import decode from 'jwt-decode';
 import Request from '@/utils/__axios';
 
-console.log(Request);
-
-const API = new AuthApi(Request.client);
-
+const API = new AuthApi(Request.client); 
+console.log('$$$$$$$$$ API', API);
 /**
  * Constants
  * */
@@ -42,12 +40,9 @@ export default function reducer(state = new ReducerRecord(), action) {
     case SIGN_IN_SUCCESS:
     case SIGN_CHECK_SUCCESS:
       return state
-        .set('user', payload.user)
+        .set('user', { login: 'asd' })
         .set('loading', false)
         .set('error', null);
-
-    // case AUTH_UPDATE_COOKIE:
-    //   return state.set('token', payload.token).set('refreshToken', payload.refreshToken);
 
     case SIGN_IN_ERROR:
       return state.set('error', error);
@@ -127,16 +122,15 @@ export function* signInSaga({ payload: { email, password } }) {
   }
 }
 
-export function* signCheckSaga(API) {
+export function* signCheckSaga() {
   try {
     yield call(API.signCheck);
-    console.log('Not auth');
     yield put({
       type: SIGN_CHECK_SUCCESS,
-      payload: decode(token),
+      payload: decode(Request.token),
     });
   } catch (e) {
-    console.log('Not auth');
+    console.log('Not auth', e);
   }
 }
 

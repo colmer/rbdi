@@ -14,23 +14,14 @@ import StoreConfig from '../redux/store';
 const storeConfig = new StoreConfig();
 
 class MyApp extends App {
-  static async getInitialProps({ Component, ctx, isServer, res }) {
+  static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
 
     let { token, refreshToken } = parseCookies(ctx);
-
-    console.log('Client token BS', Request.token);
     /*
      *  Set tokens in instance
      */
     Request.setTokens({ token, refreshToken });
-
-    console.log('Client token AS', Request.token);
-
-    /*
-     * Add http client to instance
-     */
-    // ctx.httpClient = requestClient.client;
 
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps({ ctx });
@@ -38,30 +29,31 @@ class MyApp extends App {
 
     if (ctx.req && ctx.req.headers.cookie) {
       // Server logic
-      // await ctx.store.dispatch({ type: SIGN_CHECK_REQUEST });
+      await ctx.store.dispatch({ type: SIGN_CHECK_REQUEST });
     }
 
     /*
-     * Update
+     * Update token cookie from Request
      */
-    //
-    console.log('End of all');
+    setCookie('token', Request.token);
+    setCookie('refreshToken', Request.refreshToken)
 
     return { pageProps };
   }
 
   componentDidMount() {
-    /*
-     * Set Request tokens for after ssr in browser
-     */
-    if (!Request.token) {
-      const { token, refreshToken } = cookie.parse(document.cookie || '');
-      Request.setTokens({ token, refreshToken });
-    }
+    // /*
+    //  * Set Request tokens for after ssr in browser
+    //  */
+    // if (!Request.token) {
+    //   const { token, refreshToken } = cookie.parse(document.cookie || '');
+    //   Request.setTokens({ token, refreshToken });
+    // }
   }
 
   render() {
     const { Component, pageProps, store } = this.props;
+    console.log(store);
     return (
       <Container>
         <Provider store={store}>
@@ -79,4 +71,4 @@ export default withRedux(storeConfig.configureStore, {
   deserializeState: function(state) {
     return deserialize(state);
   },
-})(withReduxSaga(MyApp));
+})(withReduxSaga({async: true})(MyApp));

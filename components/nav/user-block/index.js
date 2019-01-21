@@ -9,6 +9,7 @@ import { signOut } from '@/ducks/auth';
 class UserBlock extends Component {
   render() {
     const { user } = this.props;
+    
     return (
       <div className={css['user-block']}>
         <span className={css.login}>{user.username}</span>

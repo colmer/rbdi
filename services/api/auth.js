@@ -4,7 +4,7 @@ class ApiService {
   }
 
   signIn = (email, password) => {
-    return this.client.post('/login', { email, password });
+    return this.client.post('/auth/login', { email, password });
   };
 
   signOut = () => {
@@ -14,6 +14,6 @@ class ApiService {
   signCheck = () => {
     return this.client.get('/auth/status');
   };
-}
+} 
 
 export default ApiService;
