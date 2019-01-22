@@ -5,11 +5,11 @@ import css from './index.scss';
 import RbIcon from '@/components/common/rb-icon';
 
 import { signOut } from '@/ducks/auth';
-
+ 
 class UserBlock extends Component {
   render() {
     const { user } = this.props;
-    
+    console.log( user );
     return (
       <div className={css['user-block']}>
         <span className={css.login}>{user.username}</span>
@@ -19,7 +19,7 @@ class UserBlock extends Component {
   }
 
   handleLogOut = e => {
-    e.preventDefault();
+    e.preventDefault(); 
     this.props.signOut();
   };
 }

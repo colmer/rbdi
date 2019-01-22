@@ -2,7 +2,7 @@ import css from './index.scss';
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm, Field } from 'redux-form/immutable';
 import { errorSelector } from '@/ducks/auth';
 
 import Input from '@/components/common/input';

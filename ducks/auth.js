@@ -1,13 +1,12 @@
 import { AuthApi } from '@/services/api';
-import { Record } from 'immutable';
+import { fromJS } from 'immutable';
 import { all, call, put, take, takeEvery } from 'redux-saga/effects';
 import Router from 'next/router';
 import cookie from 'js-cookie';
 import decode from 'jwt-decode';
 import Request from '@/utils/__axios';
 
-const API = new AuthApi(Request.client); 
-console.log('$$$$$$$$$ API', API);
+const API = new AuthApi(Request.client);
 /**
  * Constants
  * */
@@ -25,22 +24,20 @@ export const REDIRECT = `${prefix}/REDIRECT`;
 /**
  * Reducer
  * */
-export const ReducerRecord = Record({
+export const initStore = fromJS({
   loading: false,
   user: null,
   error: null,
-  token: null,
-  refreshToken: null,
 });
 
-export default function reducer(state = new ReducerRecord(), action) {
+export default function reducer(state = initStore, action) {
   const { type, payload, path, error } = action;
 
   switch (type) {
     case SIGN_IN_SUCCESS:
     case SIGN_CHECK_SUCCESS:
       return state
-        .set('user', { login: 'asd' })
+        .set('user', fromJS(payload))
         .set('loading', false)
         .set('error', null);
 
@@ -62,8 +59,11 @@ export default function reducer(state = new ReducerRecord(), action) {
  * Selectors
  * */
 
-export const userSelector = state => state[moduleName].user;
-export const errorSelector = state => state[moduleName].error;
+export const userSelector = state => { 
+  const user = state.getIn([moduleName, 'user']);
+  return user ?  user.toJS() : null;
+}
+export const errorSelector = state => state.getIn([moduleName, 'error'])
 
 /**
  * Init logic
@@ -81,6 +81,7 @@ export function signIn(email, password) {
 }
 
 export function signOut() {
+  console.log('signOut');
   return {
     type: SIGN_OUT_REQUEST,
   };
@@ -130,11 +131,11 @@ export function* signCheckSaga() {
       payload: decode(Request.token),
     });
   } catch (e) {
-    console.log('Not auth', e);
+    console.log('Auth request: ', e.message);
   }
 }
 
-export function* signOutSaga(API) {
+export function* signOutSaga() { 
   yield call(API.signOut);
   yield put({
     type: SIGN_OUT_SUCCESS,
@@ -145,7 +146,7 @@ export function* signOutSaga(API) {
   });
 }
 
-export function* saga(client) {
+export function* saga() {
   yield all([
     takeEvery(SIGN_IN_REQUEST, signInSaga),
     takeEvery(SIGN_OUT_REQUEST, signOutSaga),

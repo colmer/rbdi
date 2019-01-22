@@ -11,7 +11,7 @@ import { userSelector } from '@/ducks/auth';
 class Nav extends Component {
   render() {
     const { user } = this.props;
-    console.log('USER', user);
+    console.log('USER2', user);
     return (
       <nav className={css.nav}>
         <div className={css.content}>

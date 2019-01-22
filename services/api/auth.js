@@ -6,9 +6,9 @@ class ApiService {
   signIn = (email, password) => {
     return this.client.post('/auth/login', { email, password });
   };
-
+  
   signOut = () => {
-    return this.client.get('/auth/logout');
+    return this.client.post('/auth/logout');
   };
 
   signCheck = () => {

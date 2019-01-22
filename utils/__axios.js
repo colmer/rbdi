@@ -36,17 +36,19 @@ export class Axios {
         this.refreshToken = isBrowser ? cookie.get('refreshToken') : this.refreshToken;
 
         if (!this.refreshToken || error.response.status !== 401 || error.config.retry) {
+          if (error.response.status === 403) this.deleteTokens();
           throw error;
         }
-
+        
         if (!this.refreshRequest) {
-          this.refreshRequest = this.client.post('/auth/token', {
+          this.refreshRequest = this.client.post('/auth/refresh', {
             refreshToken: this.refreshToken,
-          });
+          }); 
         }
+
         const { data } = await this.refreshRequest;
         this.refreshRequest = null;
-
+        
         this.setTokens(data)
         const newRequest = {
           ...error.config,
@@ -57,15 +59,23 @@ export class Axios {
       },
     );
 
-    this.setTokens = ({ token, refreshToken }) => {
-      console.log('setTokens', refreshToken, token)
-      
-      if (isBrowser && token && refreshToken) {
-        cookie.set('token', token);
-        cookie.set('refreshToken', refreshToken);
+    this.setTokens = (data = {}) => {
+      if (isBrowser && data.token && data.refreshToken) {
+        cookie.set('token', data.token);
+        cookie.set('refreshToken', data.refreshToken);
       }
-      this.token = token;
-      this.refreshToken = refreshToken;
+      console.log('NEW TOKENS IN AXIOS', data.token);
+      this.token = data.token || null;
+      this.refreshToken = data.refreshToken || null;
+    };
+
+    this.deleteTokens = () => {
+      if (isBrowser) {
+      cookie.remove('token');
+      cookie.remove('refreshToken');
+      }
+      this.token = null;
+      this.refreshToken = null;
     };
   }
 

@@ -4,8 +4,6 @@ import Request from '@/utils/__axios';
 
 class Home extends Component {
   static async getInitialProps({ Component, ctx }) {
-    console.log('In index page', Request.token);
-
     return {};
   }
 
@@ -23,7 +21,6 @@ class Home extends Component {
     const [status] = await Promise.all([
       Request.client.get('/auth/status'),
     ]);
-    console.log('Status', status);
   };
 }
 
