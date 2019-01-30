@@ -16,28 +16,42 @@ import configureStore from '../redux/store';
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
-
     let { token, refreshToken } = parseCookies(ctx);
+    const { store, req } = ctx;
+    
+    if (req && req.headers.cookie) { 
+      /*
+      * Set tokens on serverside
+      */
+      Request.setTokens({ token, refreshToken });
+      /*
+      * Check auth
+      */
+      await store.dispatch({ type: SIGN_CHECK_REQUEST });
+      await store.stopSagaTask();
+      /*
+      * Update token cookie from Request
+      */
+      if (Request.token) setCookie(ctx, 'token', Request.token); 
+      if (Request.refreshToken) setCookie(ctx, 'refreshToken', Request.refreshToken)
+   }
+    
+    
     /*
      *  Set tokens in instance
      */
-    Request.setTokens({ token, refreshToken });
+    
+
+    
 
     if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps({ ctx });
+       // Server logic
+       
+
+      pageProps = await Component.getInitialProps({ ctx });       
     }
 
-    if (ctx.req && ctx.req.headers.cookie) {
-      // Server logic
-      await ctx.store.dispatch({ type: SIGN_CHECK_REQUEST });
-
-      /*
-     * Update token cookie from Request
-     */
-      console.log('REQUEST TOKEN', Request.token);
-      if (Request.token) setCookie(ctx, 'token', Request.token);
-      if (Request.refreshToken) setCookie(ctx, 'refreshToken', Request.refreshToken)
-    }
+    
 
     
 
