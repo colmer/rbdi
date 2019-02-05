@@ -18,42 +18,32 @@ class MyApp extends App {
     let pageProps = {};
     let { token, refreshToken } = parseCookies(ctx);
     const { store, req } = ctx;
-    
-    if (req && req.headers.cookie) { 
+
+    if (req && req.headers.cookie) {
       /*
-      * Set tokens on serverside
-      */
+       * Set tokens on serverside
+       */
       Request.setTokens({ token, refreshToken });
       /*
-      * Check auth
-      */
+       * Check auth
+       */
       await store.dispatch({ type: SIGN_CHECK_REQUEST });
       await store.stopSagaTask();
       /*
-      * Update token cookie from Request
-      */
-      if (Request.token) setCookie(ctx, 'token', Request.token); 
-      if (Request.refreshToken) setCookie(ctx, 'refreshToken', Request.refreshToken)
-   }
-    
-    
+       * Update token cookie from Request
+       */
+      if (Request.token) setCookie(ctx, 'token', Request.token);
+      if (Request.refreshToken) setCookie(ctx, 'refreshToken', Request.refreshToken);
+    }
+
     /*
      *  Set tokens in instance
      */
-    
-
-    
 
     if (Component.getInitialProps) {
-       // Server logic
-       
-
-      pageProps = await Component.getInitialProps({ ctx });       
+      // Server logic
+      pageProps = await Component.getInitialProps({ ctx });
     }
-
-    
-
-    
 
     return { pageProps };
   }
@@ -73,4 +63,4 @@ class MyApp extends App {
 export default withRedux(configureStore, {
   serializeState: state => state.toJS(),
   deserializeState: state => fromJS(state),
-})(withReduxSaga({async: true})(MyApp));
+})(withReduxSaga({ async: true })(MyApp));

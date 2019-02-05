@@ -13,9 +13,8 @@ class AuthPage extends Component {
     );
   }
 
-  handleSignIn = (values) => { 
-    
-    this.props.signIn(values.get('email'), values.get('password'))
+  handleSignIn = values => {
+    this.props.signIn(values.get('email'), values.get('password'));
   };
 }
 

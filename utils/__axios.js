@@ -18,13 +18,13 @@ export class Axios {
         this.token = isBrowser ? cookie.get('token') : this.token;
         if (!this.token) return config;
 
-        const newConfig = { 
+        const newConfig = {
           headers: {},
           ...config,
         };
-      
+
         newConfig.headers.Authorization = `Bearer ${this.token}`;
-        
+
         return newConfig;
       },
       e => Promise.reject(e),
@@ -39,17 +39,17 @@ export class Axios {
           if (error.response.status === 403) this.deleteTokens();
           throw error;
         }
-        
+
         if (!this.refreshRequest) {
           this.refreshRequest = this.client.post('/auth/refresh', {
             refreshToken: this.refreshToken,
-          }); 
+          });
         }
 
         const { data } = await this.refreshRequest;
         this.refreshRequest = null;
-        
-        this.setTokens(data)
+
+        this.setTokens(data);
         const newRequest = {
           ...error.config,
           retry: true,
@@ -64,22 +64,26 @@ export class Axios {
         cookie.set('token', data.token);
         cookie.set('refreshToken', data.refreshToken);
       }
-      console.log('NEW TOKENS IN AXIOS', data.token);
       this.token = data.token || null;
       this.refreshToken = data.refreshToken || null;
     };
 
+    this.getTokens = () => {
+      return {
+        token: isBrowser ? cookie.get('token') : this.token,
+        refreshToken: isBrowser ? cookie.get('refreshToken') : this.token,
+      };
+    };
+
     this.deleteTokens = () => {
       if (isBrowser) {
-      cookie.remove('token');
-      cookie.remove('refreshToken');
+        cookie.remove('token');
+        cookie.remove('refreshToken');
       }
       this.token = null;
       this.refreshToken = null;
     };
   }
-
-  
 }
 
 export default new Axios();

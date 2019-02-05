@@ -3,21 +3,19 @@ import { Record } from 'immutable';
 const structures = [{ name: 'Record', type: Record }];
 
 export const serialize = state => {
-  console.log('SESERIALIZE', state);
   let serialized = {};
 
   Object.keys(state).forEach(key => {
     const elem = state[key];
-    
+
     const { name } = elem.constructor;
     const inStructures = structures.some(s => s.name === name);
 
     serialized[key] = inStructures ? { ...elem.toJS(), _name: name } : elem;
   });
 };
- 
+
 export const deserialize = obj => {
-  console.log('DESERIALIZE', obj);
   if (!obj) return obj;
 
   let deserialized = {};

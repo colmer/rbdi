@@ -36,16 +36,13 @@ export default function reducer(state = initStore, action) {
   switch (type) {
     case SIGN_IN_SUCCESS:
     case SIGN_CHECK_SUCCESS:
-      return state
-        .set('user', fromJS(payload))
-        .set('loading', false)
-        .set('error', null);
+      return state.set('user', fromJS(payload));
 
     case SIGN_IN_ERROR:
       return state.set('error', error);
 
     case SIGN_OUT_SUCCESS:
-      return state.set('user', null).set('error', null);
+      return state.set('user', null);
 
     case REDIRECT:
       Router.push(path);
@@ -59,11 +56,11 @@ export default function reducer(state = initStore, action) {
  * Selectors
  * */
 
-export const userSelector = state => { 
+export const userSelector = state => {
   const user = state.getIn([moduleName, 'user']);
-  return user ?  user.toJS() : null;
-}
-export const errorSelector = state => state.getIn([moduleName, 'error'])
+  return user ? user.toJS() : null;
+};
+export const errorSelector = state => state.getIn([moduleName, 'error']);
 
 /**
  * Init logic
@@ -81,7 +78,6 @@ export function signIn(email, password) {
 }
 
 export function signOut() {
-  console.log('signOut');
   return {
     type: SIGN_OUT_REQUEST,
   };
@@ -103,12 +99,11 @@ export function* signInSaga({ payload: { email, password } }) {
       data: { token, refreshToken },
     } = yield call(API.signIn, email, password);
 
-    cookie.set('token', token);
-    cookie.set('refreshToken', refreshToken);
+    Request.setTokens({ token, refreshToken });
 
     yield put({
       type: SIGN_IN_SUCCESS,
-      payload: { user: decode(token) },
+      payload: decode(token),
     });
 
     yield put({
@@ -135,11 +130,16 @@ export function* signCheckSaga() {
   }
 }
 
-export function* signOutSaga() { 
-  yield call(API.signOut);
+export function* signOutSaga() {
+  const { refreshToken } = Request.getTokens();
+  yield call(API.signOut, refreshToken);
+
+  Request.deleteTokens();
+
   yield put({
     type: SIGN_OUT_SUCCESS,
   });
+
   yield put({
     type: REDIRECT,
     path: '/',
