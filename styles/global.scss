@@ -1,11 +1,11 @@
-@import "~normalize.css";
-@import "./vars.scss";
+@import '~normalize.css';
+@import './vars.scss';
 
 * {
   box-sizing: border-box;
 }
 
 body {
-  font-family: "Raleway", sans-serif;
+  font-family: 'Raleway', sans-serif;
   font-size: $f-size-2;
 }

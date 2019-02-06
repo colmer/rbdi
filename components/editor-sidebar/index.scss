@@ -1,0 +1,29 @@
+.editor-sidebar {
+  border: 1px solid $c-gray-4;
+  padding: $space-1 $space-2;
+  border-radius: $rad-1;
+}
+
+.header {
+  font-size: $f-size-4;
+  font-weight: bold;
+  color: $c-gray-1;
+}
+
+.list {
+  @include reset;
+  margin-top: $space-1;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin: $space-0/2 0;
+  color: $c-purple;
+  list-style: none;
+}
+
+.badge {
+  margin-left: $space-0;
+}

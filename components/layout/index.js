@@ -15,7 +15,7 @@ class Layout extends Component {
 
   render() {
     return (
-      <div className={css.layout}>
+      <div className={[css.layout, this.props.className].join(' ')}>
         <Head title="Login" />
         <Nav />
         <div className={css.content}>{this.props.children}</div>

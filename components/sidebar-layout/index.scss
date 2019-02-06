@@ -5,8 +5,19 @@
   min-height: 100vh;
 }
 
-.content {
+.main {
   padding: $space-2 0;
+  display: flex;
   flex: 1;
+  @include adaptive-padding;
   @include content;
+}
+
+.sidebar {
+  width: 300px;
+}
+
+.content {
+  margin-left: $space-2;
+  flex: 1;
 }
