@@ -1,4 +1,6 @@
 import css from './index.scss';
+import 'draft-js/dist/Draft.css';
+import './editor.scss';
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -39,7 +41,11 @@ class AuthPage extends Component {
                   <RbIcon icon={type.style} />
                 ))}
               </div>
-              <Editor editorState={editorState} placeholder="Пишем тут..." />
+              <Editor
+                className="asd"
+                editorState={editorState}
+                placeholder="Пишем тут..."
+              />
             </div>
           ) : null,
         }}

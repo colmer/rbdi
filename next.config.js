@@ -1,14 +1,11 @@
+const withPlugins = require('next-compose-plugins');
+const withCSS = require('@zeit/next-css');
 const withSass = require('@zeit/next-sass');
 const path = require('path');
 // require("dotenv").config();
 const Dotenv = require('dotenv-webpack');
 
-module.exports = withSass({
-  cssModules: true,
-  cssLoaderOptions: {
-    camelCase: true,
-    localIdentName: '[folder]__[local]_[hash:base64:5]',
-  },
+const nextConfig = {
   serverRuntimeConfig: {
     // Will only be available on the server side
     mySecret: 'secret',
@@ -33,12 +30,10 @@ module.exports = withSass({
     config.module.rules.push({
       test: /\.scss$/,
       use: [
-        // { loader: "sass-loader", options: { sourceMap: true } },
         {
           loader: 'sass-resources-loader',
           options: {
-            sourceMap: true,
-            resources: './styles/global.scss',
+            resources: './styles/vars.scss',
           },
         },
       ],
@@ -46,4 +41,21 @@ module.exports = withSass({
 
     return config;
   },
-});
+};
+
+module.exports = withPlugins(
+  [
+    [withCSS],
+    [
+      withSass,
+      {
+        cssModules: true,
+        cssLoaderOptions: {
+          camelCase: true,
+          localIdentName: '[folder]__[local]_[hash:base64:5]',
+        },
+      },
+    ],
+  ],
+  nextConfig,
+);
