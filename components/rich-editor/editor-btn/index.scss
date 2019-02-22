@@ -1,0 +1,18 @@
+.editorBtn {
+  cursor: pointer;
+  border-right: 1px solid $c-gray-5;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  color: $c-gray-3;
+  font-size: 12px;
+  font-weight: bold;
+  &:hover {
+    background-color: lighten($c-gray-5, 20);
+  }
+}
+
+.editorBtn_active {
+  background: $c-gray-4;
+  color: $c-gray-1;
+}

@@ -2,11 +2,13 @@ import css from './index.scss';
 import React, { Component } from 'react';
 import EditorBtn from '../editor-btn';
 
-const INLINE_STYLES = [
-  { label: 'Bold', icon: 'format_bold', style: 'BOLD' },
-  { label: 'Italic', icon: 'format_italic', style: 'ITALIC' },
-  { label: 'Underline', icon: 'format_underlined', style: 'UNDERLINE' },
-  { label: 'Monospace', icon: 'space_bar', style: 'CODE' },
+const BLOCK_TYPES = [
+  { label: 'H2', style: 'header-two' },
+  { label: 'H3', style: 'header-three' },
+  { label: 'Blockquote', icon: 'format_quote', style: 'blockquote' },
+  { label: 'UL', icon: 'format_list_bulleted', style: 'unordered-list-item' },
+  { label: 'OL', icon: 'format_list_numbered', style: 'ordered-list-item' },
+  { label: 'Code Block', icon: 'code', style: 'code-block' },
 ];
 
 class InlineControls extends Component {
@@ -14,8 +16,8 @@ class InlineControls extends Component {
     const currentStyle = this.props.editorState.getCurrentInlineStyle();
 
     return (
-      <div className={css.inlineControls}>
-        {INLINE_STYLES.map(type => (
+      <div className={css.blockControls}>
+        {BLOCK_TYPES.map(type => (
           <EditorBtn
             key={type.label}
             icon={type.icon}

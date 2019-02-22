@@ -1,9 +1,11 @@
 import './editor.scss';
 import 'draft-js/dist/Draft.css';
+import css from './index.scss';
 import React, { Component } from 'react';
 import { Editor, EditorState, RichUtils } from 'draft-js';
 
 import InlineControls from './inline-controls';
+import BlockControls from './block-controls';
 
 class RichEditor extends Component {
   constructor(props) {
@@ -14,7 +16,7 @@ class RichEditor extends Component {
     // this.onChange = editorState => this.setState({ editorState });
     // this.handleKeyCommand = this._handleKeyCommand.bind(this);
     // this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
-    // this.toggleBlockType = this._toggleBlockType.bind(this);
+    this.toggleBlockType = this._toggleBlockType.bind(this);
     this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
   }
 
@@ -31,24 +33,12 @@ class RichEditor extends Component {
     this.setState({ editorState });
   };
 
-  _onBoldClick() {
-    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
-  }
-  _onItalicClick() {
-    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ITALIC'));
-  }
-  _onUnderlineClick() {
-    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'UNDERLINE'));
-  }
-  _onCodeClick() {
-    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'CODE'));
-  }
-  _onHeadingClick() {
-    this.onChange(RichUtils.DraftBlockType(this.state.editorState, 'header-two'));
-  }
-
   _toggleInlineStyle(inlineStyle) {
     this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, inlineStyle));
+  }
+
+  _toggleBlockType(blockType) {
+    this.onChange(RichUtils.toggleBlockType(this.state.editorState, blockType));
   }
 
   render() {
@@ -58,13 +48,11 @@ class RichEditor extends Component {
     else
       return (
         <div className="rich-editor">
-          <button onClick={this._onHeadingClick.bind(this)}>Heading</button>
-          <button onClick={this._onBoldClick.bind(this)}>Bold</button>
-          <button onClick={this._onCodeClick.bind(this)}>Code</button>
-          <button onClick={this._onItalicClick.bind(this)}>Italic</button>
-          <button onClick={this._onUnderlineClick.bind(this)}>Underline</button>
-
-          <InlineControls editorState={editorState} onToggle={this.toggleInlineStyle} />
+          <div className={css.editorControls}>
+            <InlineControls editorState={editorState} onToggle={this.toggleInlineStyle} />
+            <div className={css.controlDelimiter} />
+            <BlockControls editorState={editorState} onToggle={this.toggleBlockType} />
+          </div>
           <Editor
             editorState={editorState}
             onChange={this.onChange}

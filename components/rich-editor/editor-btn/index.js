@@ -1,5 +1,6 @@
 import css from './index.scss';
 import React, { Component } from 'react';
+import RbIcon from '@/components/common/rb-icon';
 
 class EditorBtn extends Component {
   constructor() {
@@ -10,14 +11,18 @@ class EditorBtn extends Component {
     };
   }
   render() {
-    let className = 'RichEditor-styleButton';
+    const { icon, label } = this.props;
+    let className = css.editorBtn;
     if (this.props.active) {
-      className += ' RichEditor-activeButton';
+      className += ' ' + css['editorBtn_active'];
     }
+
+    const inner = icon ? <RbIcon icon={icon} /> : label;
+
     return (
-      <span className={className} onMouseDown={this.onToggle}>
-        {this.props.label}
-      </span>
+      <div className={className} onMouseDown={this.onToggle}>
+        {inner}
+      </div>
     );
   }
 }
